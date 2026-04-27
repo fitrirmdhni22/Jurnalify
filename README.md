@@ -74,7 +74,7 @@ Ruang kreatif bagi pengguna untuk mencurahkan isi hati.
 - **Clean Input:** Form input judul dan konten yang minimalis tanpa distraksi.
 - **Real-time Persistence:** Integrasi dengan Room Database memastikan setiap kata yang disimpan langsung masuk ke penyimpanan lokal.
 # Add Journal
-> <img width="266" height="475" alt="image" src="https://github.com/user-attachments/assets/d31b944e-63ba-4a9e-b766-169af6846633" />
+> <img width="720" height="1582" alt="image" src="https://github.com/user-attachments/assets/6c7a2d8e-1b0e-49e5-a348-0d3342bfc2c1" />
 
 # Edit Journal
 > <img width="720" height="1485" alt="image" src="https://github.com/user-attachments/assets/f4571aee-c542-4ce6-9cc3-4423c78e506f" />
@@ -90,7 +90,7 @@ Layar utama untuk refleksi diri.
 > <img width="720" height="1549" alt="image" src="https://github.com/user-attachments/assets/4b10aa24-005e-4890-a45c-1ea2644c4c96" />
 
 # AI Analysis
-> <img width="720" height="1576" alt="image" src="https://github.com/user-attachments/assets/92e42997-2a3d-4f73-84e0-ef7be3fedb05" />
+> <img width="720" height="1550" alt="image" src="https://github.com/user-attachments/assets/fef78a18-9db8-4eac-98d1-16955d06e1d5" />
 
 ### 6. Remove Journal
 > <img width="720" height="1479" alt="image" src="https://github.com/user-attachments/assets/d101b97c-73f3-4d47-8bbb-f7c5e14db4a8" />
