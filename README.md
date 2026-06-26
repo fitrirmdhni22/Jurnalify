@@ -42,7 +42,7 @@ Berikut adalah detail antarmuka pengguna Jurnalify beserta penjelasan teknisnya:
 
 ### 1. Splash & Authentication Flow
 Layar pembuka dengan branding Jurnalify. Alur ini mencakup pengecekan izin lokasi untuk fitur personalisasi sapaan.
-> <img width="300" alt="Splash Screen" src="https://github.com/user-attachments/assets/8239fe93-c2cf-4765-b635-3139500134a6" />
+> <img width="720" height="1487" alt="image" src="https://github.com/user-attachments/assets/bc832122-9ba9-49cf-9646-57628d683394" />
 
 ### 2. Location Onboarding & Geofencing
 Aplikasi meminta izin lokasi untuk menentukan identitas negara pengguna. Jika diizinkan, aplikasi akan menampilkan bendera negara dan sapaan yang relevan di layar awal.
@@ -54,25 +54,28 @@ Pusat navigasi aplikasi yang memiliki beberapa komponen cerdas:
 - **Streak Counter (🔥):** Menampilkan jumlah hari berturut-turut pengguna menulis jurnal. Logika ini menghitung selisih waktu antar entri di database.
 - **Dynamic Header:** Warna dan sapaan berubah otomatis sesuai waktu (Pagi/Siang/Sore/Malam).
 - **Search Logic:** Pencarian jurnal secara instan menggunakan query `LIKE` pada database Room.
-> <img width="300" alt="Dashboard" src="https://github.com/user-attachments/assets/2ddfd8ff-1edb-4a44-9c5b-89aa4e56e4cd" />
+> <img width="720" height="1475" alt="image" src="https://github.com/user-attachments/assets/1d2db3ef-ff6c-4f46-a675-711a85b65862" />
 
 ### 4. Write & Edit Journal
 Formulir input yang bersih. Saat pengguna menyimpan jurnal, aplikasi secara otomatis mencatat `timestamp` untuk keperluan perhitungan streak.
 - **Add Journal:** Fokus pada kemudahan pengetikan.
 - **Edit Journal:** Memungkinkan pembaruan data lama tanpa merusak urutan streak.
-> <img width="300" alt="Add Journal" src="https://github.com/user-attachments/assets/6c7a2d8e-1b0e-49e5-a348-0d3342bfc2c1" />
-> <img width="300" alt="Edit Journal" src="https://github.com/user-attachments/assets/f4571aee-c542-4ce6-9cc3-4423c78e506f" />
+> <img width="720" height="1481" alt="image" src="https://github.com/user-attachments/assets/694d3fd5-b269-41e4-92ad-aaebec527e7a" />
+
+> <img width="698" height="1600" alt="image" src="https://github.com/user-attachments/assets/07e5716a-77e5-41bc-8f3a-238f6b0b816f" />
 
 ### 5. Detail View & AI Insight
 Layar paling krusial di mana pengguna melakukan refleksi.
 - **Text Justification:** Implementasi tata letak teks rata kiri-kanan agar jurnal terlihat profesional.
 - **AI Analysis:** Menghubungkan teks jurnal ke Gemini AI untuk mendapatkan analisis suasana hati dan pesan motivasi yang bersifat suportif.
-> <img width="300" alt="Detail Journal" src="https://github.com/user-attachments/assets/4b10aa24-005e-4890-a45c-1ea2644c4c96" />
-> <img width="300" alt="AI Analysis" src="https://github.com/user-attachments/assets/fef78a18-9db8-4eac-98d1-16955d06e1d5" />
+> <img width="720" height="1472" alt="image" src="https://github.com/user-attachments/assets/61162145-90ce-4cb6-968a-614513036685" />
+
+> <img width="720" height="1479" alt="image" src="https://github.com/user-attachments/assets/24349688-e0b6-4ba0-b368-28b22c83cd61" />
+
 
 ### 6. Data Management
 Fitur untuk menghapus jurnal yang tidak diinginkan dengan dialog konfirmasi untuk mencegah penghapusan yang tidak disengaja.
-> <img width="300" alt="Remove Journal" src="https://github.com/user-attachments/assets/d101b97c-73f3-4d47-8bbb-f7c5e14db4a8" />
+> <img width="720" height="1480" alt="image" src="https://github.com/user-attachments/assets/1137da78-c34e-4739-8fec-e12504b61672" />
 
 ---
 
