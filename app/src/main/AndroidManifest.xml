@@ -11,6 +11,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
+    <!-- Izin untuk Notifikasi (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Izin untuk Alarm Tepat (Optional, tapi baik untuk reminder) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -20,6 +25,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jurnalify">
+
+        <!-- Receiver untuk Notifikasi -->
+        <receiver android:name=".ReminderReceiver" android:exported="false" />
+
         <!-- Activity untuk menangani permintaan izin lokasi -->
         <activity
             android:name=".LocationPermissionActivity"

@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.45">
 
-        <!-- Logo Frame dengan bayangan halus -->
+        <!-- Logo Frame -->
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +58,6 @@
                 android:scaleType="fitCenter" />
         </androidx.cardview.widget.CardView>
 
-        <!-- Judul Aplikasi -->
         <TextView
             android:id="@+id/textTitle"
             android:layout_width="wrap_content"
@@ -70,14 +69,13 @@
             android:textColor="#FFFFFF"
             android:textSize="42sp" />
 
-        <!-- Slogan -->
         <TextView
             android:id="@+id/textSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Teman setia cerita harimu ✨"
+            android:text="Teman setia cerita harimu 📖"
             android:textColor="#D9FFFFFF"
             android:textSize="18sp"
             android:alpha="0.9" />
@@ -90,18 +88,18 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="100dp"
         android:indeterminate="true"
         android:indeterminateTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Versi Aplikasi di paling bawah -->
+    <!-- Versi Aplikasi -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="48dp"
         android:fontFamily="sans-serif-light"
         android:text="version 1.0.0"
         android:textColor="#B3FFFFFF"

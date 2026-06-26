@@ -76,23 +76,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="2dp"
-                android:background="#F3E5F5"
-                android:text="Mood: Senang ✨"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:background="@drawable/bg_mood_badge"
+                android:text="Mood: Senang ☁️"
                 android:textSize="11sp"
-                android:textColor="#7B1FA2"
+                android:textColor="#1976D2"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Actions Section -->
+        <!-- Improved Delete Button -->
         <ImageButton
             android:id="@+id/buttonDelete"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="12dp"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:background="@drawable/bg_delete_button"
             android:src="@android:drawable/ic_menu_delete"
+            android:contentDescription="Hapus Jurnal"
             app:tint="#EF4444" />
 
     </LinearLayout>

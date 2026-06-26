@@ -9,7 +9,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 public class JournalDetailActivity extends AppCompatActivity {
 
@@ -22,7 +26,15 @@ public class JournalDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_journal_detail);
+
+        // Menangani insets agar tidak tertutup status bar
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.headerDetail), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(v.getPaddingLeft(), systemBars.top + 20, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
 
         repository = new JournalRepository(this);
         aiService = new AiService(this);
@@ -31,6 +43,7 @@ public class JournalDetailActivity extends AppCompatActivity {
         TextView textDate = findViewById(R.id.textDetailDate);
         TextView textContent = findViewById(R.id.editDetailContent);
         TextView textMoodBadge = findViewById(R.id.textDetailMoodAI);
+        TextView textAccuracy = findViewById(R.id.textMoodAccuracy);
         ImageButton buttonBack = findViewById(R.id.buttonBackDetail);
         Button buttonUpdate = findViewById(R.id.buttonUpdateEntry);
 
@@ -45,6 +58,13 @@ public class JournalDetailActivity extends AppCompatActivity {
             if (textDate != null) textDate.setText(currentEntry.dateText);
             if (textContent != null) textContent.setText(currentEntry.content);
             if (textMoodBadge != null) textMoodBadge.setText("Status AI: " + currentEntry.moodAI);
+            
+            if (currentEntry.moodAccuracy != null && !currentEntry.moodAccuracy.isEmpty()) {
+                if (textAccuracy != null) {
+                    textAccuracy.setVisibility(View.VISIBLE);
+                    textAccuracy.setText("Akurasi: " + currentEntry.moodAccuracy);
+                }
+            }
 
             if (currentEntry.pesanAI != null && !currentEntry.pesanAI.equals("-")) {
                 if (textAiResult != null) {
@@ -54,7 +74,7 @@ public class JournalDetailActivity extends AppCompatActivity {
             }
 
             if (buttonAnalyze != null) {
-                buttonAnalyze.setOnClickListener(v -> performMoodAnalysis(currentEntry.content, buttonAnalyze, textAiResult, currentEntry, textMoodBadge));
+                buttonAnalyze.setOnClickListener(v -> performMoodAnalysis(currentEntry.content, buttonAnalyze, textAiResult, currentEntry, textMoodBadge, textAccuracy));
             }
         } else {
             Toast.makeText(this, "Data jurnal tidak ditemukan", Toast.LENGTH_SHORT).show();
@@ -68,7 +88,6 @@ public class JournalDetailActivity extends AppCompatActivity {
 
         if (buttonUpdate != null) {
             buttonUpdate.setOnClickListener(v -> {
-                // Pastikan JournalEditActivity menggunakan EXTRA_INDEX sebagai ID Database juga
                 Intent intent = new Intent(JournalDetailActivity.this, JournalEditActivity.class);
                 intent.putExtra("extra_index", entryId); 
                 startActivity(intent);
@@ -76,7 +95,7 @@ public class JournalDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void performMoodAnalysis(String content, Button btn, TextView resultView, JournalEntry entry, TextView badge) {
+    private void performMoodAnalysis(String content, Button btn, TextView resultView, JournalEntry entry, TextView badge, TextView accuracyView) {
         btn.setEnabled(false);
         btn.setText("Menganalisis...");
         resultView.setVisibility(View.VISIBLE);
@@ -84,18 +103,22 @@ public class JournalDetailActivity extends AppCompatActivity {
 
         aiService.analisisMood(content, new AiService.MoodCallback() {
             @Override
-            public void onSuccess(String mood, String message) {
+            public void onSuccess(String mood, String accuracy, String message) {
                 runOnUiThread(() -> {
                     btn.setEnabled(true);
                     btn.setText("Analisis Ulang");
 
                     resultView.setText(message);
                     if (badge != null) badge.setText("Status AI: " + mood);
+                    if (accuracyView != null) {
+                        accuracyView.setVisibility(View.VISIBLE);
+                        accuracyView.setText("Akurasi: " + accuracy);
+                    }
 
                     entry.moodAI = mood;
+                    entry.moodAccuracy = accuracy;
                     entry.pesanAI = message;
                     
-                    // Simpan perubahan ke database
                     repository.updateEntry(entry);
 
                     Toast.makeText(JournalDetailActivity.this, "Analisis Berhasil", Toast.LENGTH_SHORT).show();
@@ -117,7 +140,6 @@ public class JournalDetailActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh data jika kembali dari EditActivity
         currentEntry = repository.getEntryById(entryId);
         if (currentEntry != null) {
             TextView textTitle = findViewById(R.id.textDetailTitle);

@@ -1,7 +1,6 @@
 package com.example.jurnalify;
 
 import android.content.Context;
-import android.util.Log;
 import com.google.gson.annotations.SerializedName;
 import java.util.Collections;
 import java.util.List;
@@ -18,11 +17,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import com.example.jurnalify.BuildConfig;
 
 public class AiService {
 
     private final GeminiApi api;
-    // Dia akan otomatis mengambil dari BuildConfig yang baru saja kita buat
     private final String apiKey = BuildConfig.GEMINI_API_KEY;
 
     public AiService(Context context) {
@@ -51,14 +50,15 @@ public class AiService {
             return;
         }
 
-        // Prompt yang lebih ekspresif, hangat, dan menggunakan emoji
-        String prompt = "Kamu adalah seorang sahabat karib yang sangat pengertian dan ceria. " +
-                "Tugasmu adalah menganalisis mood dari teks jurnal pengguna dan memberikan tanggapan yang sangat suportif, " +
-                "penuh semangat, hangat, dan dilengkapi dengan banyak emoji lucu (seperti ✨, 💖, 🌸, 🧸, 🌈).\n\n" +
-                "Jurnal: \"" + teksJurnal + "\"\n\n" +
-                "Format jawaban (Berikan HANYA teks sesuai format di bawah, dilarang menggunakan markdown ** atau *):\n" +
-                "Mood: [Satu kata mood + emoji yang pas]\n" +
-                "Pesan: [Berikan pesan motivasi yang hangat, panjang, ramah, dan penuh semangat sebagai sahabat + tambahkan banyak emoji lucu di dalamnya]";
+        String prompt = "Kamu adalah asisten AI dari aplikasi Jurnalify. Tugasmu adalah menganalisis perasaan dari jurnal harian.\n\n" +
+                "SOP: \n" +
+                "1. Jika teks di bawah ini adalah curhatan atau cerita hari ini, lakukan analisis.\n" +
+                "2. Jika teks di bawah ini TIDAK RELEVAN, berikan respon 'Luar Konteks'.\n\n" +
+                "Teks User: \"" + teksJurnal + "\"\n\n" +
+                "Format jawaban (HANYA berikan teks sesuai format ini tanpa markdown):\n" +
+                "Mood: [Isi Mood + Emoji]\n" +
+                "Akurasi: [Persentase keyakinanmu 0-100%]\n" +
+                "Pesan: [Berikan 1-2 kalimat motivasi singkat yang hangat]";
 
         GeminiRequest request = new GeminiRequest(prompt);
 
@@ -73,76 +73,59 @@ public class AiService {
                         if (callback != null) callback.onError("Gagal baca respon AI.");
                     }
                 } else {
-                    if (callback != null) callback.onError("Error " + response.code() + ": Pastikan API Key dan Model benar.");
+                    if (callback != null) callback.onError("Gagal: Error " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<GeminiResponse> call, Throwable t) {
-                if (callback != null) {
-                    callback.onError("Koneksi gagal: " + t.getMessage());
-                }
+                if (callback != null) callback.onError("Koneksi gagal.");
             }
         });
     }
 
     private void parseResult(String fullText, MoodCallback callback) {
         try {
-            // Bersihkan teks dari karakter Markdown seperti ** atau *
             String cleanText = fullText.replaceAll("\\*", "").trim();
             
             String mood = "Netral";
+            String akurasi = "0%";
             String pesan = cleanText;
 
-            // Gunakan regex agar lebih akurat mengambil data meskipun formatnya berantakan
             Pattern moodPattern = Pattern.compile("Mood:\\s*([^\\n\\r]+)", Pattern.CASE_INSENSITIVE);
+            Pattern akurasiPattern = Pattern.compile("Akurasi:\\s*([^\\n\\r]+)", Pattern.CASE_INSENSITIVE);
             Pattern pesanPattern = Pattern.compile("Pesan:\\s*([\\s\\S]+)", Pattern.CASE_INSENSITIVE);
 
             Matcher moodMatcher = moodPattern.matcher(cleanText);
-            if (moodMatcher.find()) {
-                mood = moodMatcher.group(1).trim();
-            }
+            if (moodMatcher.find()) mood = moodMatcher.group(1).trim();
+
+            Matcher akurasiMatcher = akurasiPattern.matcher(cleanText);
+            if (akurasiMatcher.find()) akurasi = akurasiMatcher.group(1).trim();
 
             Matcher pesanMatcher = pesanPattern.matcher(cleanText);
-            if (pesanMatcher.find()) {
-                pesan = pesanMatcher.group(1).trim();
-            } else if (cleanText.contains("\n")) {
-                // Fallback jika format pesan tidak ditemukan tapi ada baris baru
-                String[] lines = cleanText.split("\n");
-                for (String line : lines) {
-                    if (!line.toLowerCase().contains("mood:") && !line.trim().isEmpty()) {
-                        pesan = line.trim();
-                        break;
-                    }
-                }
-            }
+            if (pesanMatcher.find()) pesan = pesanMatcher.group(1).trim();
 
-            if (callback != null) callback.onSuccess(mood, pesan);
+            if (callback != null) callback.onSuccess(mood, akurasi, pesan);
         } catch (Exception e) {
-            if (callback != null) callback.onSuccess("Selesai", fullText.replaceAll("\\*", ""));
+            if (callback != null) callback.onSuccess("Selesai", "100%", fullText);
         }
     }
 
     public interface MoodCallback {
-        void onSuccess(String mood, String message);
+        void onSuccess(String mood, String accuracy, String message);
         void onError(String error);
     }
 
     public interface GeminiApi {
-        @POST("v1beta/models/gemini-3-flash-preview:generateContent")
-        Call<GeminiResponse> generateContent(
-                @Query("key") String apiKey,
-                @Body GeminiRequest request
-        );
+        @POST("v1beta/models/gemini-3.1-flash-lite:generateContent")
+        Call<GeminiResponse> generateContent(@Query("key") String apiKey, @Body GeminiRequest request);
     }
 
     public static class GeminiRequest {
         @SerializedName("contents") public List<Content> contents;
         public GeminiRequest(String text) {
-            Part part = new Part();
-            part.text = text;
-            Content content = new Content();
-            content.parts = Collections.singletonList(part);
+            Part part = new Part(); part.text = text;
+            Content content = new Content(); content.parts = Collections.singletonList(part);
             this.contents = Collections.singletonList(content);
         }
         public static class Content { @SerializedName("parts") public List<Part> parts; }

@@ -7,7 +7,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,7 +26,15 @@ public class AddJournalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_journal);
+
+        // Menangani insets agar tidak tertutup status bar/nav bar
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_add_journal), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
         repository = new JournalRepository(this);
 
@@ -52,12 +64,16 @@ public class AddJournalActivity extends AppCompatActivity {
         }
 
         Date now = new Date();
-        String month = new SimpleDateFormat("MMMM", Locale.getDefault()).format(now);
-        String day = new SimpleDateFormat("dd", Locale.getDefault()).format(now);
-        String dateText = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(now);
+        long timestamp = now.getTime();
+        Locale localeID = new Locale("id", "ID");
+        
+        // Mengubah format tanggal menjadi lebih manusiawi (Contoh: Senin, 20 Mei 2024)
+        String month = new SimpleDateFormat("MMMM", localeID).format(now);
+        String day = new SimpleDateFormat("dd", localeID).format(now);
+        String dateText = new SimpleDateFormat("EEEE, dd MMMM yyyy", localeID).format(now);
+        
         String preview = content.length() > 30 ? content.substring(0, 30) + "..." : content;
 
-        // Kembali menggunakan pemanggilan simpel
         JournalEntry entry = new JournalEntry(
                 title, 
                 content, 
@@ -67,7 +83,8 @@ public class AddJournalActivity extends AppCompatActivity {
                 preview, 
                 "Belum dicek", 
                 "-", 
-                "Lokasi tidak aktif"
+                "Lokasi tidak aktif",
+                timestamp
         );
 
         repository.addEntry(entry);

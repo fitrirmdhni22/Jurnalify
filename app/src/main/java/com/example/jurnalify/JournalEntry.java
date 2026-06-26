@@ -17,13 +17,15 @@ public class JournalEntry {
     public String preview;
     public String moodAI;
     public String pesanAI;
+    public String moodAccuracy; // Menambah field akurasi
     public String location;
+    public long timestamp; // New field for streak calculation
 
     public JournalEntry() {
     }
 
     @Ignore
-    public JournalEntry(String title, String content, String month, String day, String dateText, String preview, String moodAI, String pesanAI, String location) {
+    public JournalEntry(String title, String content, String month, String day, String dateText, String preview, String moodAI, String pesanAI, String location, long timestamp) {
         this.title = title;
         this.content = content;
         this.month = month;
@@ -33,5 +35,6 @@ public class JournalEntry {
         this.moodAI = moodAI;
         this.pesanAI = pesanAI;
         this.location = location;
+        this.timestamp = timestamp;
     }
 }

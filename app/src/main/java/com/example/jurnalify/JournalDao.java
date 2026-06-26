@@ -16,6 +16,9 @@ public interface JournalDao {
     @Query("SELECT * FROM journal_entries WHERE id = :id LIMIT 1")
     JournalEntry getEntryById(int id);
 
+    @Query("SELECT * FROM journal_entries WHERE title LIKE :query OR preview LIKE :query ORDER BY id DESC")
+    List<JournalEntry> searchEntries(String query);
+
     @Insert
     void insert(JournalEntry entry);
 
