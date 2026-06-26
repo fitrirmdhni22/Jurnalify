@@ -62,7 +62,7 @@ Formulir input yang bersih. Saat pengguna menyimpan jurnal, aplikasi secara otom
 - **Edit Journal:** Memungkinkan pembaruan data lama tanpa merusak urutan streak.
 > <img width="720" height="1481" alt="image" src="https://github.com/user-attachments/assets/694d3fd5-b269-41e4-92ad-aaebec527e7a" />
 
-> <img width="698" height="1600" alt="image" src="https://github.com/user-attachments/assets/07e5716a-77e5-41bc-8f3a-238f6b0b816f" />
+> <img width="720" height="1463" alt="image" src="https://github.com/user-attachments/assets/9501c079-8ed5-412f-bf49-7487c2bce983" />
 
 ### 5. Detail View & AI Insight
 Layar paling krusial di mana pengguna melakukan refleksi.
