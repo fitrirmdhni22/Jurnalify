@@ -70,7 +70,7 @@ Layar paling krusial di mana pengguna melakukan refleksi.
 - **AI Analysis:** Menghubungkan teks jurnal ke Gemini AI untuk mendapatkan analisis suasana hati dan pesan motivasi yang bersifat suportif.
 > <img width="720" height="1472" alt="image" src="https://github.com/user-attachments/assets/61162145-90ce-4cb6-968a-614513036685" />
 
-> <img width="698" height="1600" alt="image" src="https://github.com/user-attachments/assets/10aed523-920f-4b85-aa0b-eb96ce6ba473" />
+> <img width="720" height="1486" alt="image" src="https://github.com/user-attachments/assets/76eca543-c628-4d6e-a246-8e6b795b0779" />
 
 ### 6. Data Management
 Fitur untuk menghapus jurnal yang tidak diinginkan dengan dialog konfirmasi untuk mencegah penghapusan yang tidak disengaja.
